@@ -1,0 +1,15 @@
+const request = require('supertest');
+const app = require('../app');
+const { sequelize } = require('../models');
+
+describe('App Initialization', () => {
+    test('Health check endpoint returns 200', async () => {
+        const response = await request(app).get('/health');
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty('status', 'ok');
+    });
+});
+
+afterAll(async () => {
+    await sequelize.close();
+});
