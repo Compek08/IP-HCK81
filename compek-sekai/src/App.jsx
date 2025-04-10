@@ -33,8 +33,8 @@ function App() {
 				<div className="container mx-auto px-4 py-8">
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/login" element={isAuthenticated ? <Navigate to="/game" /> : <Login />} />
-						<Route path="/register" element={isAuthenticated ? <Navigate to="/game" /> : <Register />} />
+						<Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+						<Route path="/register" element={isAuthenticated ? <Navigate to="/" /> : <Register />} />
 						<Route path="/game" element={isAuthenticated ? <Game /> : <Navigate to="/login" />} />
 						<Route path="/sessions" element={isAuthenticated ? <UserSessions /> : <Navigate to="/login" />} />
 						<Route path="*" element={<NotFound />} />

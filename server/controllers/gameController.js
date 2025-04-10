@@ -141,41 +141,44 @@ const gameController = {
             // Update GameSession if updates are provided
             if (options["Game Session Updates"]) {
                 const updates = options["Game Session Updates"];
+                console.log(updates, "Game Session Updates");
 
-                // Data type validation and sanitization
+                // Validate and sanitize updates
+                const validUpdates = {};
+
                 if (updates.health !== undefined) {
-                    updates.health = parseInt(updates.health);
-                    if (isNaN(updates.health)) delete updates.health;
+                    const health = parseInt(updates.health);
+                    if (!isNaN(health)) validUpdates.playerHealth = health;
                 }
                 if (updates.experience !== undefined) {
-                    updates.experience = parseInt(updates.experience);
-                    if (isNaN(updates.experience)) delete updates.experience;
+                    const experience = parseInt(updates.experience);
+                    if (!isNaN(experience)) validUpdates.playerExp = experience;
                 }
                 if (updates.gold !== undefined) {
-                    updates.gold = parseInt(updates.gold);
-                    if (isNaN(updates.gold)) delete updates.gold;
+                    const gold = parseInt(updates.gold);
+                    if (!isNaN(gold)) validUpdates.playerGold = gold;
                 }
                 if (updates.inventory !== undefined) {
                     try {
-                        // Ensure inventory is a valid JSON object
-                        if (typeof updates.inventory === 'string') {
-                            updates.inventory = JSON.parse(updates.inventory);
-                        }
-                        // Basic structure validation (customize as needed)
-                        if (!updates.inventory || typeof updates.inventory !== 'object' || !Array.isArray(updates.inventory.items)) {
-                            delete updates.inventory; // Remove if invalid
+                        const inventory = typeof updates.inventory === 'string'
+                            ? JSON.parse(updates.inventory)
+                            : updates.inventory;
+                        if (inventory && typeof inventory === 'object' && Array.isArray(inventory.items)) {
+                            validUpdates.playerInventory = JSON.stringify(inventory);
                         }
                     } catch (e) {
                         console.error("Invalid inventory JSON:", e);
-                        delete updates.inventory;
                     }
                 }
-                if (updates.status && !['active', 'completed', 'game_over'].includes(updates.status)) {
-                    delete updates.status;
+                if (updates.status && ['active', 'completed', 'game_over'].includes(updates.status)) {
+                    validUpdates.status = updates.status;
+                }
+                if (updates.currentScene) {
+                    validUpdates.currentScene = updates.currentScene;
                 }
 
                 try {
-                    await gameSession.update(updates);
+                    await gameSession.update(validUpdates);
                 } catch (e) {
                     console.error("Error updating game session:", e);
                 }

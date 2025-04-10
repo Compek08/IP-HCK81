@@ -1,17 +1,24 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/slices/authSlice";
 import Loading from "../components/Loading";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Login = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { loading, error } = useSelector((state) => state.auth);
+	const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate("/");
+		}
+	}, [isAuthenticated, navigate]);
 
 	const handleChange = (e) => {
 		setFormData({

@@ -21,7 +21,7 @@ const systemInstructionText = `
 
 **Genre:** Isekai, Dark Fantasy, Action, Survival
 
-**Difficulty:** Hell. Choices should have significant consequences, and incorrect choices can lead to injury, death, enslavement, or other highly negative outcomes. The New World is unforgiving.
+**Difficulty:** Hell. Choices should have significant consequences, and incorrect choices will lead to injury, death, enslavement, or other highly negative outcomes. Ensure that the correct choice is and must be 1 from 4 choice. The New World is unforgiving. Ensure that you update the player status (health, experience, gold, inventory) if a user action should change the game state. Once player health reaches 0, add character's dialogue as Narator and set status to "game_over".
 
 **Input (Provided via user message context):**
 
@@ -99,18 +99,18 @@ const systemInstructionText = `
 async function generateDialogueOptions(characters, chatHistory, playerStatus) {
     try {
         // Update your dynamic system instruction to include player status
-        const dynamicSystemInstruction = `${ systemInstructionText }
+        const dynamicSystemInstruction = `${systemInstructionText}
 
 **Current Scene Context:**
 
 *   **Characters Present:**
-${ JSON.stringify(characters, null, 2) }
+${JSON.stringify(characters, null, 2)}
 
 *   **Player Status:**
-${ JSON.stringify(playerStatus, null, 2) }
+${JSON.stringify(playerStatus, null, 2)}
 
 *   **Recent Conversation:** (Most recent messages first)
-${ chatHistory.slice(-5).reverse().map(msg => `    *   [${ msg.speaker_id }]: ${ msg.dialogue }`).join('\n') }
+${chatHistory.slice(-5).reverse().map(msg => `    *   [${msg.speaker_id}]: ${msg.dialogue}`).join('\n')}
 -------------------------------------
 Generate the next NPC dialogue(s) and the four user options based on this context, adhering strictly to the JSON output format described above.
 `;
@@ -128,7 +128,7 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
 
         // --- Generation Configuration ---
         const generationConfig = {
-            temperature: 1.2,
+            temperature: 1.1,
             topP: 0.99,
             topK: 40,
             maxOutputTokens: 8192,
@@ -158,12 +158,12 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
             const safetyRatings = response?.promptFeedback?.safetyRatings;
             console.error("Generation failed or was blocked.");
             if (blockReason) {
-                console.error(`Block Reason: ${ blockReason }`);
+                console.error(`Block Reason: ${blockReason}`);
             }
             if (safetyRatings) {
-                console.error(`Safety Ratings: ${ JSON.stringify(safetyRatings) }`);
+                console.error(`Safety Ratings: ${JSON.stringify(safetyRatings)}`);
             }
-            throw new Error(`Generation failed or was blocked. Reason: ${ blockReason || 'Unknown' }`);
+            throw new Error(`Generation failed or was blocked. Reason: ${blockReason || 'Unknown'}`);
         }
 
         const responseText = response.text(); // Get text even if parsing fails later
@@ -178,7 +178,7 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
                 throw new Error("Parsed response is missing required keys: 'User Options', 'Character Dialogues', or 'Character Cards'.");
             }
             if (!Array.isArray(parsedResponse['User Options']) || parsedResponse['User Options'].length !== 4) {
-                console.warn(`Warning: Model returned ${ parsedResponse['User Options']?.length ?? 0 } user options instead of 4.`);
+                console.warn(`Warning: Model returned ${parsedResponse['User Options']?.length ?? 0} user options instead of 4.`);
                 // Decide how to handle this: error out, try to pad, or use what's given?
                 // For now, let's proceed but be aware.
             }
@@ -198,7 +198,7 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
         console.error("Error in generateDialogueOptions:", error.message);
         // Log specific Gemini API errors if available
         if (error instanceof Error && 'status' in error && 'errorDetails' in error) { // Check if it looks like GoogleGenerativeAIFetchError
-            console.error(`API Error Status: ${ error.status } ${ error.statusText }`);
+            console.error(`API Error Status: ${error.status} ${error.statusText}`);
             console.error("API Error Details:", JSON.stringify(error.errorDetails, null, 2));
         } else {
             console.error("Full Error Object:", error); // Log the whole error if it's not the expected API error type
