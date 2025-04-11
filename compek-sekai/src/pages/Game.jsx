@@ -47,6 +47,11 @@ const Game = () => {
 				isNarrator: item.speaker_id === "NARRATOR",
 			}));
 			setDialogue(formattedDialogue);
+
+			// Fetch player status after option selection
+			if (playerInfoRef.current) {
+				playerInfoRef.current.fetchPlayerStatus();
+			}
 		}
 	}, [dialogueHistory]);
 
