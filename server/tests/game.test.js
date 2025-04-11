@@ -183,6 +183,14 @@ describe('Game API', () => {
             expect(response.body).toHaveProperty('gold');
             expect(response.body).toHaveProperty('inventory');
         });
+
+        test('Should handle error in getPlayerStatus when session is not found', async () => {
+            const response = await request(app)
+                .get('/game/player-status/invalidSessionId')
+                .set('Authorization', `Bearer ${ validToken }`);
+            expect(response.status).toBe(404);
+            expect(response.body.error).toBe('Game session not found');
+        });
     });
 
     describe('GET /api/game/session/:sessionId/characters', () => {
@@ -195,6 +203,14 @@ describe('Game API', () => {
             expect(response.body).toHaveProperty('characters');
             expect(Array.isArray(response.body.characters)).toBe(true);
             expect(response.body.characters.length).toBeGreaterThan(0);
+        });
+
+        test('Should handle error in getCharacters when session is not found', async () => {
+            const response = await request(app)
+                .get('/game/characters/invalidSessionId')
+                .set('Authorization', `Bearer ${ validToken }`);
+            expect(response.status).toBe(404);
+            expect(response.body.error).toBe('Game session not found');
         });
     });
 
@@ -239,6 +255,14 @@ describe('Game API', () => {
 
             expect(response.statusCode).toBe(404);
             expect(response.body).toHaveProperty('error');
+        });
+
+        test('Should return 404 if user tries to delete a session they do not own', async () => {
+            const response = await request(app)
+                .delete('/game/session/invalidSessionId')
+                .set('Authorization', `Bearer ${ validToken }`);
+            expect(response.status).toBe(404);
+            expect(response.body.error).toBe('Session not found or unauthorized');
         });
     });
 });

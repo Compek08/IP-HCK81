@@ -110,3 +110,11 @@
   - `Authorization: Bearer <token>`
 - **Parameters**:
   - `sessionId`: ID sesi game
+
+#### Image Generation
+- **Endpoint**: `GET /game/session/:sessionId/imageGen`
+- **Deskripsi**: Menghasilkan gambar berdasarkan sesi game
+- **Headers**: 
+  - `Authorization: Bearer <token>`
+- **Parameters**:
+  - `sessionId`: ID sesi game

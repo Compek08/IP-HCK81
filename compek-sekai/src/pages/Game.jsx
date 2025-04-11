@@ -32,7 +32,6 @@ const Game = () => {
 			dispatch(getOptions(sessionIdParam)); // Load options immediately
 		} else {
 			// Start a new game if no sessionId
-			console.log("Starting a new game");
 
 			dispatch(initGame());
 		}
@@ -84,8 +83,6 @@ const Game = () => {
 				dialogue: option.dialogue_text,
 			})
 		);
-
-		console.log(playerInfoRef, "playerInfoRef");
 
 		// Fetch player status after option selection
 		if (playerInfoRef.current) {

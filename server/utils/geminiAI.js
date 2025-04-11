@@ -10,9 +10,9 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Definisikan System Instruction (Prompt Utama)
 const systemInstructionText = `
-**Prompt Title:** Overlord VN Dialogue Generator - New World Adventurer - Quad-Choice (Hard Mode)
+**Prompt Title:** Overlord VN Immersive Dialogue Generator - New World Adventurer - Quad-Choice (Hard Mode)
 
-**Objective:** Generate four distinct, contextually relevant, and *challenging* dialogue options for the user (a newly isekai'd adventurer) in a VN-style simulation within the *Overlord* universe. Options should reflect the harsh realities and dangers of the New World.
+**Objective:** Generate four distinct, contextually relevant, immersive gameplay and *challenging* dialogue options for the user (a newly isekai'd adventurer) in a VN-style simulation within the *Overlord* universe. Options should reflect the harsh realities and dangers of the New World.
 
 **Setting:** The New World, as depicted in the *Overlord* series. Assume familiarity with the power scaling, magic system, and general ruthlessness of the setting. The player is NOT a Nazarick denizen.
 
@@ -20,7 +20,7 @@ const systemInstructionText = `
 
 **Genre:** Isekai, Dark Fantasy, Action, Survival
 
-**Difficulty:** Hell. Choices should have significant consequences, and incorrect choices will lead to injury, death, enslavement, or other highly negative outcomes. Ensure that the correct choice is and must be 1 from 4 choice. The New World is unforgiving. Ensure that you update the player status (health, experience, gold, inventory) if a user action should change the game state. Once player health reaches 0, add character's dialogue as Narator and set status to "game_over".
+**Difficulty:** Hell. Choices should have significant consequences, and incorrect choices will lead to injury, death, enslavement, or other highly negative outcomes. Ensure that the correct choice is and must be 1 from 4 choice. The New World is unforgiving. Ensure that you update the player status (health, experience, gold, inventory) if a user action should change the game state. Once player health reaches 0, add character's dialogue as "NARRATOR" and set status to "game_over".
 
 **Input (Provided via user message context):**
 
@@ -65,7 +65,7 @@ const systemInstructionText = `
 *   **"Character Cards":** Array of updated character card objects (following the input format). Required. Include only characters whose state has changed.
     *   \`character_id\`: (String) Unique ID.
     *   \/* Other character fields to update *\/
-*   **"Character Dialogues":** Array of new dialogue objects spoken by characters in response to the last user action (or initiating the scene). Required.
+*   **"Character Dialogues":** Array of new dialogue objects spoken by characters in response to the last user action (or initiating the scene). Sometimes, add "NARRATOR" dialogues to make gameplay more immersive Required.
     *   \`speaker_id\`: (String) Character ID.
     *   \`dialogue\`: (String) Dialogue text.
 *   **"User Options":** Array of exactly four dialogue option objects for the player. Required.
@@ -183,7 +183,6 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
             }
             // Add more validation here if needed to ensure structure is as expected
 
-            console.log("Successfully parsed JSON response.");
             return parsedResponse;
 
         } catch (parseError) {
@@ -207,34 +206,3 @@ Generate the next NPC dialogue(s) and the four user options based on this contex
 }
 
 module.exports = { generateDialogueOptions };
-
-// --- Example Usage (for testing) ---
-/*
-async function testGeneration() {
-    const exampleCharacters = [
-        {
-            "character_id": "GAZ_01", "name": "Gazef Stronoff (Imitation)", "short_description": "A man claiming to be the Warrior Captain, but seems...off.", "personality_traits": ["arrogant", "overconfident", "cruel", "sadistic"], "relationship_to_user": "2/10 - Sees the user as insignificant.", "current_emotional_state": "Bored and looking for amusement", "goals_in_scene": ["Test the user's strength (for his own amusement)", "Humiliate the user"], "speaking_style": "Condescending and mocking.", "hidden_information": "Is actually a powerful undead creature disguised as Gazef.", "power_level": "Overwhelmingly powerful (Nazarick level)", "faction": "Nazarick (Suspected)", "perceived_threat_level_of_user": "Non-threat"
-        },
-        {
-            "character_id": "AINS_01", "name": "Ains Ooal Gown (Momon)", "short_description": "Appear as dark warrior adventurer.", "personality_traits": ["observant", "protective", "secretive", "calculating"], "relationship_to_user": "5/10 - Neutral, observing.", "current_emotional_state": "Observant and cautious", "goals_in_scene": ["Observe the situation.", "Gauge the newcomer (user).", "Assess the 'Gazef' imposter."], "speaking_style": "Short, blunt, thoughtful pauses.", "hidden_information": "Is actually Ains Ooal Gown, supreme being of Nazarick.", "power_level": "Overwhelmingly powerful (Nazarick level)", "faction": "Nazarick", "perceived_threat_level_of_user": "Non-threat (initially)"
-        }
-    ];
-
-    const exampleChatHistory = [
-        {
-            "speaker_id": "GAZ_01",
-            "dialogue": "Well, well, what do we have here? Another weakling adventurer, fresh off the turnip truck. Show me what you've got, *worm*."
-        }
-    ];
-
-    try {
-        const result = await generateDialogueOptions(exampleCharacters, exampleChatHistory);
-        console.log("Generated Options:", JSON.stringify(result, null, 2));
-    } catch (error) {
-        // Error is already logged inside the function, just indicate failure here.
-        console.error("Test generation failed.");
-    }
-}
-
-// Uncomment to run the test
-// testGeneration();*/

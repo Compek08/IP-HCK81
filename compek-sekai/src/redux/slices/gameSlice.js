@@ -24,8 +24,6 @@ export const initGame = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await api.post('/game/init');
-            console.log("Init Game Response", response);
-
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || { error: 'Failed to initialize game' });
@@ -51,14 +49,11 @@ export const getOptions = createAsyncThunk(
     async (sessionId, { rejectWithValue }) => {
         try {
             // Then get options
-            const optionsResponse = await api.get(`/game/session/${sessionId}/options`);
+            const optionsResponse = await api.get(`/game/session/${ sessionId }/options`);
 
             // First, get dialogue history
-            const historyResponse = await api.get(`/game/session/${sessionId}/history`);
+            const historyResponse = await api.get(`/game/session/${ sessionId }/history`);
             console.log("Full Responses", optionsResponse);
-
-            // console.log("History Response", historyResponse);
-            // console.log("Options Response", optionsResponse);
             return {
                 dialogueHistory: historyResponse.data.dialogueHistory,
                 options: optionsResponse.data.options
@@ -73,7 +68,7 @@ export const selectOption = createAsyncThunk(
     'game/selectOption',
     async ({ sessionId, optionId, dialogue }, { rejectWithValue, dispatch }) => {
         try {
-            const response = await api.post(`/game/session/${sessionId}/select`, { optionId, dialogue });
+            const response = await api.post(`/game/session/${ sessionId }/select`, { optionId, dialogue });
 
             // After selecting an option, get new options and dialogue history
             dispatch(getOptions(sessionId));
@@ -89,7 +84,7 @@ export const getPlayerStatus = createAsyncThunk(
     'game/getPlayerStatus',
     async (sessionId, { rejectWithValue }) => {
         try {
-            const response = await api.get(`/game/session/${sessionId}/status`);
+            const response = await api.get(`/game/session/${ sessionId }/status`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || { error: 'Failed to get player status' });

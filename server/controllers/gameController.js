@@ -142,7 +142,6 @@ const gameController = {
             // Update GameSession if updates are provided
             if (options["Game Session Updates"]) {
                 const updates = options["Game Session Updates"];
-                console.log(updates, "Game Session Updates");
 
                 // Validate and sanitize updates
                 const validUpdates = {};

@@ -17,7 +17,6 @@ export default function CharactersImage({ sessionId, updateTrigger }) {
 			// Remove background using Gradio
 			const gradioClient = await client("https://briaai-bria-rmbg-1-4.hf.space/--replicas/awfs5/");
 			const result = await gradioClient.predict("/predict", [blob]);
-			console.log(result.data, "result from gradio");
 
 			setImage(result.data[0]); // Set the processed image
 		} catch (error) {
@@ -33,9 +32,5 @@ export default function CharactersImage({ sessionId, updateTrigger }) {
 
 	if (!image) return null;
 
-	return (
-		<div className="fixed bottom-4 right-4">
-			<img src={`https://briaai-bria-rmbg-1-4.hf.space/--replicas/awfs5/file=${image.path}`} alt="Character" className="w-auto h-auto rounded-lg shadow-lg" style={{ transform: "scale(0.5)", transformOrigin: "bottom right" }} />
-		</div>
-	);
+	return <img src={`https://briaai-bria-rmbg-1-4.hf.space/--replicas/awfs5/file=${image.path}`} alt="Character" className="w-auto h-auto fixed bottom-4 right-4 rounded-lg shadow-lg" style={{ transform: "scale(0.5)", transformOrigin: "bottom right" }} />;
 }
