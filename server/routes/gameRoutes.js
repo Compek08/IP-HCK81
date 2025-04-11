@@ -24,6 +24,8 @@ router.get('/session/:sessionId/status', gameController.getPlayerStatus);
 // Add this line with your other routes
 router.get('/session/:sessionId/characters', gameController.getCharacters);
 
+router.get('/session/:sessionId/imageGen', gameController.imageGeneration);
+
 // Add this route
 router.get('/sessions', gameController.getUserSessions);
 

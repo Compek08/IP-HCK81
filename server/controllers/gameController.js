@@ -1,5 +1,6 @@
 const { Character, GameSession, DialogueHistory } = require('../models');
 const { generateDialogueOptions } = require('../utils/geminiAI');
+const { generateImagePrompt, generateImage } = require('../utils/imageGen');
 
 // Helper function to find a game session
 const findGameSession = async (sessionId) => {
@@ -192,6 +193,26 @@ const gameController = {
                 })),
             });
         } catch (error) {
+            next(error);
+        }
+    },
+
+    async imageGeneration(req, res, next) {
+        try {
+            const { sessionId } = req.params;
+            const gameSession = await findGameSession(sessionId);
+
+            // Fetch characters for the session
+            const characters = await Character.findAll({ where: { sessionId } });
+            const characterCardsJson = characters.map((char) => char.toJSON());
+
+            // Generate prompt and image
+            const prompt = await generateImagePrompt(characterCardsJson);
+            const image = await generateImage(prompt);
+
+            res.json({ image }); // Return the generated image (base64 or URL)
+        } catch (error) {
+            console.error("Error generating image:", error);
             next(error);
         }
     },
