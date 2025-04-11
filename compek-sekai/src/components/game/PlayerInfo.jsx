@@ -28,8 +28,11 @@ const PlayerInfo = forwardRef(({ user, currentScene, sessionId, onStatusUpdate }
 			if (onStatusUpdate) {
 				onStatusUpdate(response.data);
 			}
+
+			return response.data; // Ensure this is returning the data
 		} catch (error) {
 			console.error("Failed to fetch player status:", error);
+			return null; // Return null or an empty object in case of an error
 		} finally {
 			setLoading(false);
 		}

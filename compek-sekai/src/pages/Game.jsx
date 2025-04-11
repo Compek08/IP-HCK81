@@ -58,10 +58,9 @@ const Game = () => {
 	}, [dialogueHistory]);
 
 	useEffect(() => {
-		// Periksa status game atau HP pemain
 		if (playerInfoRef.current) {
 			playerInfoRef.current.fetchPlayerStatus().then((status) => {
-				if (status.health <= 0 || status.status === "game_over") {
+				if (status?.health <= 0 || status?.status === "game_over") {
 					setIsGameOver(true);
 				}
 			});
