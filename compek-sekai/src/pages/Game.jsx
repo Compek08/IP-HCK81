@@ -11,6 +11,7 @@ import CharactersPanel from "../components/game/CharactersPanel";
 import SceneImage from "../components/game/SceneImage";
 import GameInitializer from "../components/game/GameInitializer";
 import CharactersImage from "../components/game/CharactersImage";
+import GameOver from "../components/game/GameOver"; // Import komponen Game Over
 
 const Game = () => {
 	const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Game = () => {
 	const [dialogue, setDialogue] = useState([]);
 	const playerInfoRef = useRef();
 	const [updateImageTrigger, setUpdateImageTrigger] = useState(false);
+	const [isGameOver, setIsGameOver] = useState(false);
 
 	useEffect(() => {
 		if (sessionIdParam) {
@@ -54,6 +56,17 @@ const Game = () => {
 			}
 		}
 	}, [dialogueHistory]);
+
+	useEffect(() => {
+		// Periksa status game atau HP pemain
+		if (playerInfoRef.current) {
+			playerInfoRef.current.fetchPlayerStatus().then((status) => {
+				if (status.health <= 0 || status.status === "game_over") {
+					setIsGameOver(true);
+				}
+			});
+		}
+	}, [dialogueHistory]); // Trigger saat dialogueHistory berubah
 
 	const getSpeakerName = (speakerId) => {
 		switch (speakerId) {
@@ -97,6 +110,10 @@ const Game = () => {
 		// Trigger image update
 		setUpdateImageTrigger((prev) => !prev);
 	};
+
+	if (isGameOver) {
+		return <GameOver />;
+	}
 
 	if (loading && !sessionId) {
 		return <Loading />;
