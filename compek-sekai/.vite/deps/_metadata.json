@@ -1,0 +1,79 @@
+{
+  "hash": "8e630d2c",
+  "configHash": "4536b9b1",
+  "lockfileHash": "ade1d8bd",
+  "browserHash": "4977eaf4",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "62e297cc",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "ddbed5f6",
+      "needsInterop": true
+    },
+    "react-redux": {
+      "src": "../../node_modules/react-redux/dist/react-redux.mjs",
+      "file": "react-redux.js",
+      "fileHash": "ad3ac9a9",
+      "needsInterop": false
+    },
+    "@reduxjs/toolkit": {
+      "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
+      "file": "@reduxjs_toolkit.js",
+      "fileHash": "d096de5b",
+      "needsInterop": false
+    },
+    "sweetalert2": {
+      "src": "../../node_modules/sweetalert2/dist/sweetalert2.esm.all.js",
+      "file": "sweetalert2.js",
+      "fileHash": "1ba5d5ad",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "7502fc60",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "9b663f3e",
+      "needsInterop": false
+    },
+    "@gradio/client": {
+      "src": "../../node_modules/@gradio/client/dist/index.js",
+      "file": "@gradio_client.js",
+      "fileHash": "adca7d88",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "promises-FIQAZ3PZ": {
+      "file": "promises-FIQAZ3PZ.js"
+    },
+    "path-CMDFJWPZ": {
+      "file": "path-CMDFJWPZ.js"
+    },
+    "wrapper-CviSselG-VULHTSYR": {
+      "file": "wrapper-CviSselG-VULHTSYR.js"
+    },
+    "chunk-KURI24UC": {
+      "file": "chunk-KURI24UC.js"
+    },
+    "chunk-TKHB4QMX": {
+      "file": "chunk-TKHB4QMX.js"
+    },
+    "chunk-YLDSBLSF": {
+      "file": "chunk-YLDSBLSF.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}

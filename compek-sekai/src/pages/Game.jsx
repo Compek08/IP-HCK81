@@ -11,7 +11,7 @@ import CharactersPanel from "../components/game/CharactersPanel";
 import SceneImage from "../components/game/SceneImage";
 import GameInitializer from "../components/game/GameInitializer";
 import CharactersImage from "../components/game/CharactersImage";
-import GameOver from "../components/game/GameOver"; // Import komponen Game Over
+import GameOver from "./GameOver"; // Import dari pages/GameOver.jsx
 
 const Game = () => {
 	const dispatch = useDispatch();
